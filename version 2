@@ -1,0 +1,77 @@
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+            "milk": 0
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+    "money": 0
+}
+
+def check_resources(drink_choice):
+    if drink_choice == "report":
+        print(resources)
+        return True
+    if resources["water"] > (MENU[drink_choice]["ingredients"]["water"]):
+        if resources["milk"] > (MENU[drink_choice]["ingredients"]["milk"]):
+            if resources["coffee"] > (MENU[drink_choice]["ingredients"]["coffee"]):
+                return True
+            else:
+                print("Sorry, there is not enough coffee. Please restock the machine")
+                return False
+        else:
+            print("Sorry, there is not enough milk.")
+            return False
+    else:
+        print("Sorry, there is not enough water.")
+        return False
+
+machine_on = True
+
+while machine_on:
+    drink_choice = input("What would you like? (espresso/latte/cappuccino): ").lower()
+    available = check_resources(drink_choice)
+    if not available:
+        machine_on = False
+    else:
+        print(f'Cost: ${(MENU[drink_choice]["cost"])}. Insert coins.')
+        if drink_choice == "espresso":
+            resources["water"] = resources["water"] - (MENU["espresso"]["ingredients"]["water"])
+            resources["coffee"] = resources["coffee"] - (MENU["espresso"]["ingredients"]["coffee"])
+        elif drink_choice == "latte":
+            resources["water"] = resources["water"] - (MENU["latte"]["ingredients"]["water"])
+            resources["milk"] = resources["milk"] - (MENU["latte"]["ingredients"]["milk"])
+            resources["coffee"] = resources["coffee"] - (MENU["latte"]["ingredients"]["coffee"])
+
+        elif drink_choice == "cappuccino":
+            resources["water"] = resources["water"] - (MENU["cappuccino"]["ingredients"]["water"])
+            resources["milk"] = resources["milk"] - (MENU["cappuccino"]["ingredients"]["milk"])
+            resources["coffee"] = resources["coffee"] - (MENU["cappuccino"]["ingredients"]["coffee"])
+
+
+print(resources)
+
